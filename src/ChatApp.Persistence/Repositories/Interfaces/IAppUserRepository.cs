@@ -2,6 +2,7 @@
 
 namespace ChatApp.Persistence.Repositories.Interfaces;
 
-public interface IAppUserRepository : IGenericRepository<AppUser>
+public interface IAppUserRepository
 {
+    Task<AppUser?> GetByUserNameAsync(string userName);
 }

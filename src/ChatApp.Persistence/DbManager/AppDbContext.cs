@@ -1,11 +1,18 @@
 ﻿using ChatApp.Domain.Entities;
 using ChatApp.Persistence.Interceptors;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 
 namespace ChatApp.Persistence.DbManager;
 
-public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
+public class AppDbContext : IdentityDbContext<AppUser, AppRole, Guid>
 {
+
+    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
+    {
+
+    }
 
     // Add the interceptor
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -20,6 +27,16 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<AppUser>(b =>
+        {
+            b.Property(x => x.Id).HasDefaultValueSql("newsequentialid()");
+        });
+
+        modelBuilder.Entity<AppRole>(b =>
+        {
+            b.Property(x => x.Id).HasDefaultValueSql("newsequentialid()");
+        });
+
         modelBuilder.ApplyConfigurationsFromAssembly(AssemblyReference.Assembly);
     }
 }

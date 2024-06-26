@@ -10,10 +10,8 @@ public class AppUserService : IAppUserService
 
     public AppUserService(IAppUserRepository appUserRepository) => _appUserRepository = appUserRepository;
 
-    public async Task<Result> CreateAsync(AppUser appUser)
+    public async Task<AppUser> GetByUserNameAsync(string userName)
     {
-        await _appUserRepository.CreateAsync(appUser);
-
-        return Result.Success();
+        return await _appUserRepository.GetByUserNameAsync(userName) ?? throw new InvalidDataException("AppUser not found.");
     }
 }

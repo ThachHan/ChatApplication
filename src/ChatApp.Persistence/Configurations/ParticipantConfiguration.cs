@@ -8,6 +8,15 @@ namespace ChatApp.Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<Participant> builder)
         {
+            builder.HasOne(y => y.Conversation)
+                .WithMany(x => x.Participants)
+                .HasForeignKey(x => x.ConversationId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            builder.HasOne(y => y.AppUser)
+                .WithMany(x => x.Participants)
+                .HasForeignKey(x => x.AppUserId)
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

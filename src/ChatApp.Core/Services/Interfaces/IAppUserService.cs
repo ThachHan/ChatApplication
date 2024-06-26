@@ -5,5 +5,5 @@ namespace ChatApp.Core.Services.Interfaces;
 
 public interface IAppUserService
 {
-    Task<Result> CreateAsync(AppUser appUser);
+    Task<AppUser> GetByUserNameAsync(string userName);
 }
